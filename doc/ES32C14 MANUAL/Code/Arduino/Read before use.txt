@@ -1,0 +1,11 @@
+1 Before using the examples, it is assumed that you can already program the ESP32 board through the ARDUINO IDE
+
+2 Pin Mapping
+   ES32C14                        ESP32
+Vo1-Vo2(0-10V AO)      IO25/IO26
+Io1-Io2(0-20MA AO)    IO25/IO26
+Vi1-Vi2(0-10V AI)          IO36/IO39
+Ii1-Ii2(0-20MA AI)        IO34/IO35
+IN1-IN4(NPN DI )         IO19/IO18/IO5/IO17
+CH1-CH4(Relay DO)    IO27/IO14/IO12/IO13
+Free Port                       IO33/IO32/IO15/IO2/IO0/IO4/IO16/IO21/IO23

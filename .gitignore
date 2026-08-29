@@ -1,0 +1,26 @@
+# PlatformIO build and generated files
+.pio/
+.pioenvs/
+.piolibdeps/
+*.bin
+*.elf
+*.hex
+*.map
+*.log
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Local secrets and runtime config
+include/secrets.h
+*.local
+
+# Operating system noise
+.DS_Store
+Thumbs.db
+
+# Temporary/editor files
+*.swp
+*.tmp
+*.bak

@@ -1,0 +1,21 @@
+- id: pvheatctrl_surplus_control
+  alias: PV Heat Controller - Ueberschussregelung
+  description: Setzt die Heizstableistung aus dem PV-Ueberschuss.
+  mode: restart
+  trigger:
+    - platform: state
+      entity_id: sensor.stromzahler_wirkleistung
+  condition:
+    - condition: template
+      value_template: "{{ is_number(states('sensor.stromzahler_wirkleistung')) }}"
+  action:
+    - variables:
+        power_w: "{{ states('sensor.stromzahler_wirkleistung') | float(0) }}"
+        max_power_w: "{{ states('number.maximum_power') | float(3000) }}"
+    - service: mqtt.publish
+      data:
+        topic: pvheatctrl/cmd/target_w
+        retain: false
+        payload: >-
+          {% set surplus_w = [0, 0 - power_w] | max %}
+          {{ [surplus_w, max_power_w] | min | round(0) | int }}

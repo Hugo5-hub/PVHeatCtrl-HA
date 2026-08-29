@@ -1,0 +1,12 @@
+# Optionaler Dashboard-Eintrag fuer configuration.yaml.
+# Die Datei lovelace-pvheatctrl.yaml muss auf dem Home-Assistant-System unter
+# /config/lovelace-pvheatctrl.yaml liegen.
+#
+# lovelace:
+#   dashboards:
+#     pvheatctrl:
+#       mode: yaml
+#       title: PV Heat
+#       icon: mdi:solar-power
+#       show_in_sidebar: true
+#       filename: lovelace-pvheatctrl.yaml

@@ -1,0 +1,50 @@
+title: PV Heat Controller
+views:
+  - title: PV Heat
+    path: pv-heat
+    icon: mdi:solar-power
+    cards:
+      - type: entities
+        title: Heizstab
+        show_header_toggle: false
+        entities:
+          - entity: number.target_power
+            name: Ziel-Leistung
+          - entity: number.maximum_power
+            name: Maximale Leistung
+          - entity: sensor.output_voltage
+            name: Ausgangsspannung
+          - entity: sensor.temperature_1
+            name: Temperatur 1
+          - entity: sensor.temperature_2
+            name: Temperatur 2
+          - entity: sensor.status
+            name: Status
+      - type: gauge
+        entity: number.target_power
+        name: Heizstab-Leistung
+        unit: W
+        min: 0
+        max: 3000
+        severity:
+          green: 0
+          yellow: 2000
+          red: 2800
+      - type: gauge
+        entity: sensor.temperature_1
+        name: Temperatur 1
+        unit: °C
+        min: 0
+        max: 100
+        severity:
+          green: 0
+          yellow: 60
+          red: 80
+      - type: history-graph
+        title: Verlauf
+        hours_to_show: 24
+        entities:
+          - entity: sensor.temperature_1
+          - entity: sensor.temperature_2
+          - entity: number.target_power
+          - entity: sensor.output_voltage
