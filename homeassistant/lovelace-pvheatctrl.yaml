@@ -1,50 +1,273 @@
-title: PV Heat Controller
 views:
-  - title: PV Heat
-    path: pv-heat
-    icon: mdi:solar-power
+  - title: PVHeatCtrl
+    path: pvheatctrl
+    icon: mdi:water-boiler
     cards:
+      - type: markdown
+        content: |
+          # ☀️ PVHeatCtrl
+          ### PV-Überschussregelung für den Heizstab
+      - type: markdown
+        content: >
+          {% set grid = states('sensor.stromzahler_wirkleistung') | float(0) %}
+
+          {% set minimum = states('input_number.pv_heizstab_mindestuberschuss')
+          | float(0) %}
+
+          {% set reserve = states('input_number.pv_heizstab_reserve') | float(0)
+          %}
+
+          {% set pmax = states('input_number.pv_heizstab_pmax') | float(0) %}
+
+
+          {% if grid < 0 %}
+
+          ## 🔴 NETZBEZUG
+
+          **{{ grid | round(0) }} W**
+
+
+          Es wird momentan Leistung aus dem Netz bezogen.
+
+
+          **Heizstab-Ziel: 0 W**
+
+
+          {% elif grid < minimum %}
+
+          ## ⚪ ZU WENIG PV-ÜBERSCHUSS
+
+          **{{ grid | round(0) }} W Einspeisung**
+
+
+          Mindestüberschuss: **{{ minimum | round(0) }} W**
+
+
+          **Heizstab-Ziel: 0 W**
+
+
+          {% else %}
+
+          {% set target = grid - reserve %}
+
+          {% if target > pmax %}
+            {% set target = pmax %}
+          {% endif %}
+
+
+          ## 🟢 PV-ÜBERSCHUSS
+
+          **{{ grid | round(0) }} W Einspeisung**
+
+
+          Heizstab-Ziel:
+
+          # 🔥 {{ target | round(0) }} W
+
+
+          {% endif %}
+      - type: grid
+        title: Energiefluss
+        columns: 2
+        square: false
+        cards:
+          - type: gauge
+            entity: sensor.wechselrichter_eingangsleistung
+            name: ☀️ PV-Leistung
+            min: 0
+            max: 10000
+            needle: true
+            severity:
+              green: 0
+              yellow: 5000
+              red: 8500
+          - type: gauge
+            entity: sensor.stromzahler_wirkleistung
+            name: 🔌 Netzleistung
+            min: -5000
+            max: 10000
+            needle: true
+            severity:
+              red: -5000
+              yellow: -1
+              green: 500
+      - type: grid
+        title: 🌡️ Speichertemperaturen
+        columns: 2
+        square: false
+        cards:
+          - type: gauge
+            entity: sensor.temperature_1
+            name: Speicher oben
+            unit: °C
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 60
+              red: 80
+          - type: gauge
+            entity: sensor.temperature_2
+            name: Speicher unten
+            unit: °C
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 60
+              red: 80
       - type: entities
-        title: Heizstab
+        title: ⚡ Aktuelle Energie
         show_header_toggle: false
         entities:
-          - entity: number.target_power
-            name: Ziel-Leistung
-          - entity: number.maximum_power
-            name: Maximale Leistung
-          - entity: sensor.output_voltage
-            name: Ausgangsspannung
-          - entity: sensor.temperature_1
-            name: Temperatur 1
-          - entity: sensor.temperature_2
-            name: Temperatur 2
-          - entity: sensor.status
-            name: Status
+          - entity: sensor.wechselrichter_eingangsleistung
+            name: ☀️ PV DC-Leistung
+            icon: mdi:solar-power
+          - entity: sensor.wechselrichter_wirkleistung
+            name: Wechselrichter AC-Leistung
+            icon: mdi:transmission-tower
+          - entity: sensor.stromzahler_wirkleistung
+            name: 🔌 Netzleistung
+            icon: mdi:transmission-tower-export
+          - entity: sensor.batterien_lade_entladeleistung
+            name: 🔋 Batterie Lade-/Entladeleistung
+            icon: mdi:battery-charging
+          - entity: sensor.batterien_batterieladung
+            name: 🔋 Batterieladung
+            icon: mdi:battery
+      - type: entities
+        title: 🔥 Heizstab-Regelung
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: input_number.pv_heizstab_mindestuberschuss
+            name: Mindestüberschuss
+            icon: mdi:solar-power
+          - entity: input_number.pv_heizstab_reserve
+            name: Netzreserve
+            icon: mdi:shield-check
+          - entity: input_number.pv_heizstab_pmax
+            name: Maximale Heizleistung
+            icon: mdi:fire
+      - type: markdown
+        title: 🧮 Regelberechnung
+        content: >
+          {% set grid = states('sensor.stromzahler_wirkleistung') | float(0) %}
+
+          {% set minimum = states('input_number.pv_heizstab_mindestuberschuss')
+          | float(0) %}
+
+          {% set reserve = states('input_number.pv_heizstab_reserve') | float(0)
+          %}
+
+          {% set pmax = states('input_number.pv_heizstab_pmax') | float(0) %}
+
+
+          **Netzeinspeisung:**  
+
+          {{ grid | round(0) }} W
+
+
+          **Mindestüberschuss:**  
+
+          {{ minimum | round(0) }} W
+
+
+          **Reserve:**  
+
+          {{ reserve | round(0) }} W
+
+
+          **Max. Heizleistung:**  
+
+          {{ pmax | round(0) }} W
+
+
+          ---
+
+
+          {% set available = grid - reserve %}
+
+
+          {% if grid < minimum %}
+
+          🛑 **Heizstab AUS**
+
+
+          Überschuss liegt unter dem eingestellten Mindestwert.
+
+
+          {% elif available <= 0 %}
+
+          🛑 **Heizstab AUS**
+
+
+          Die eingestellte Reserve wird benötigt.
+
+
+          {% elif available >= pmax %}
+
+          🔥 **MAXIMALE LEISTUNG**
+
+
+          Zielwert: **{{ pmax | round(0) }} W**
+
+
+          {% else %}
+
+          🔥 **Heizstab aktiv**
+
+
+          Verfügbare Leistung nach Reserve:
+
+
+          **{{ available | round(0) }} W**
+
+          {% endif %}
       - type: gauge
-        entity: number.target_power
-        name: Heizstab-Leistung
-        unit: W
-        min: 0
-        max: 3000
-        severity:
-          green: 0
-          yellow: 2000
-          red: 2800
-      - type: gauge
-        entity: sensor.temperature_1
-        name: Temperatur 1
-        unit: °C
+        entity: sensor.batterien_batterieladung
+        name: 🔋 Batterieladung
         min: 0
         max: 100
+        needle: true
         severity:
-          green: 0
-          yellow: 60
-          red: 80
-      - type: history-graph
-        title: Verlauf
-        hours_to_show: 24
+          red: 0
+          yellow: 20
+          green: 50
+      - type: entities
+        title: 🔋 Batteriespeicher
+        show_header_toggle: false
         entities:
-          - entity: sensor.temperature_1
-          - entity: sensor.temperature_2
-          - entity: number.target_power
-          - entity: sensor.output_voltage
+          - entity: sensor.batterien_batterieladung
+            name: Ladezustand
+            icon: mdi:battery
+          - entity: sensor.batterien_lade_entladeleistung
+            name: Lade-/Entladeleistung
+            icon: mdi:battery-charging
+      - type: history-graph
+        title: 📈 Energieverlauf
+        hours_to_show: 6
+        refresh_interval: 30
+        entities:
+          - entity: sensor.wechselrichter_eingangsleistung
+            name: PV
+          - entity: sensor.stromzahler_wirkleistung
+            name: Netz
+          - entity: sensor.batterien_lade_entladeleistung
+            name: Batterie
+      - type: entities
+        title: ⚙️ PVHeatCtrl
+        show_header_toggle: false
+        entities:
+          - entity: sensor.stromzahler_wirkleistung
+            name: Netzleistung
+          - entity: sensor.wechselrichter_eingangsleistung
+            name: PV-Eingangsleistung
+          - entity: sensor.wechselrichter_wirkleistung
+            name: Wechselrichterleistung
+          - entity: sensor.batterien_lade_entladeleistung
+            name: Batterieleistung
+          - entity: sensor.batterien_batterieladung
+            name: Batterieladung

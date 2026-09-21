@@ -35,7 +35,7 @@ const int DEFAULT_MAX_POWER_W = 3000;
 #define RS485_DE_PIN 22
 
 // PTDNC04 slave and registers (aus Manual)
-const uint8_t MODBUS_SLAVE = 5;   // dein Wert
+const uint8_t MODBUS_SLAVE = 1;   // dein Wert
 const uint16_t REG_TEMPS_START = 0x0000; // CH0..CH7, CH0@0x0000, CH1@0x0001
 
 // ES32C14 Vo1: onboard 0-10 V output, ESP32 DAC1 on GPIO25.

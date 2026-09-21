@@ -33,8 +33,8 @@ Dashboard-Datei angepasst werden.
 
 Den Inhalt von `automations-pvheatctrl.yaml` in Home Assistant unter
 Einstellungen > Automationen und Szenen importieren oder in `automations.yaml`
-uebernehmen. Bei negativer Wirkleistung wird der Betrag als PV-Ueberschuss an den
-ESP32 gesendet. Positive Netzleistung setzt den Heizstab auf 0 W. Der Wert wird
+uebernehmen. Bei positiver Wirkleistung wird der Wert als PV-Ueberschuss an den
+ESP32 gesendet. Negative Netzleistung setzt den Heizstab auf 0 W. Der Wert wird
 auf `number.maximum_power` begrenzt.
 
 Nach Aenderungen an YAML-Dateien die Home-Assistant-Konfiguration pruefen und

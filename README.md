@@ -70,11 +70,12 @@ automatisch die Entitäten für Ziel-/Maximalleistung, Ausgangsspannung, beide
 Temperaturen und den Status. Die Discovery-Nachrichten sind retained und
 werden bei jeder MQTT-Verbindung erneut veröffentlicht.
 
-Bei negativer Wirkleistung des HA-Sensors
-`sensor.stromzahler_wirkleistung` gilt: negativer Wert = PV-Überschuss.
-Home Assistant sollte daher `target_w = clamp(-power_w, 0, max_power_w)`
-publizieren. Die Standard-Maximalleistung beträgt 3000 W und wird im ESP32
-persistent gespeichert.
+Bei positiver Wirkleistung des HA-Sensors
+`sensor.stromzahler_wirkleistung` gilt: positiver Wert = PV-Überschuss bzw.
+Netzeinspeisung. Home Assistant sollte daher
+`target_w = clamp(power_w, 0, max_power_w)` publizieren. Die
+Standard-Maximalleistung beträgt 3000 W und wird im ESP32 persistent
+gespeichert.
 
 ## Home-Assistant-Dateien
 

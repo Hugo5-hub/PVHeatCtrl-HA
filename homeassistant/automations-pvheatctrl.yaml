@@ -17,5 +17,5 @@
         topic: pvheatctrl/cmd/target_w
         retain: false
         payload: >-
-          {% set surplus_w = [0, 0 - power_w] | max %}
+          {% set surplus_w = [0, power_w] | max %}
           {{ [surplus_w, max_power_w] | min | round(0) | int }}
