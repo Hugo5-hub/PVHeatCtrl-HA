@@ -6,12 +6,23 @@ ESP32-Firmware für die PV-Überschussregelung eines Heizstabs über Home Assist
 
 ```text
 PVHeatCtrl-HA/
-├── include/
-│   └── secrets.h.example
-├── src/
-│   └── main.cpp
 ├── .gitignore
-└── platformio.ini
+├── README.md
+├── platformio.ini
+├── doc/
+│   └── ES32C14 MANUAL/
+│       .....
+|
+├── homeassistant/
+│   ├── README.md
+│   ├── automations-pvheatctrl.yaml
+│   ├── configuration.yaml.example
+│   └── lovelace-pvheatctrl.yaml
+├── include/
+│   ├── secrets.h (per .gitignore ausgeschlossen !)
+│   └── secrets.h.example
+└── src/
+    └── main.cpp
 ```
 
 ## Hardware
@@ -81,3 +92,4 @@ gespeichert.
 
 Unter `homeassistant/` liegen ein Lovelace-Dashboard, die Automation für die
 PV-Überschussregelung sowie eine Einbindungsanleitung.
+

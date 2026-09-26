@@ -257,6 +257,13 @@ views:
             name: Netz
           - entity: sensor.batterien_lade_entladeleistung
             name: Batterie
+      - type: history-graph
+        title: 🔥 Heizstab-Sollwert
+        hours_to_show: 24
+        refresh_interval: 30
+        entities:
+          - entity: number.target_power
+            name: Sollwert
       - type: entities
         title: ⚙️ PVHeatCtrl
         show_header_toggle: false
