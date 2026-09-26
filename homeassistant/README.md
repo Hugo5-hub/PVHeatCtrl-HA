@@ -22,8 +22,8 @@ Das Dashboard verwendet diese automatisch entdeckten Entity IDs:
 - `number.target_power`
 - `number.maximum_power`
 - `sensor.output_voltage`
-- `sensor.temperature_1`
-- `sensor.temperature_2`
+- `sensor.pv_heat_controller_temperature_1`
+- `sensor.pv_heat_controller_temperature_2`
 - `sensor.status`
 
 Falls Home Assistant andere Entity IDs vergeben hat, muessen nur die IDs in der

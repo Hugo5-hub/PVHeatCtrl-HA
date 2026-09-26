@@ -97,7 +97,7 @@ views:
         square: false
         cards:
           - type: gauge
-            entity: sensor.temperature_1
+            entity: sensor.pv_heat_controller_temperature_1
             name: Speicher oben
             unit: °C
             min: 0
@@ -108,7 +108,7 @@ views:
               yellow: 60
               red: 80
           - type: gauge
-            entity: sensor.temperature_2
+            entity: sensor.pv_heat_controller_temperature_2
             name: Speicher unten
             unit: °C
             min: 0
