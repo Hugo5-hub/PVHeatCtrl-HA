@@ -149,6 +149,8 @@ views:
             name: Netzreserve
             icon: mdi:shield-check
           - entity: input_number.pv_heizstab_pmax
+            type: number
+            mode: box
             name: Maximale Heizleistung
             icon: mdi:fire
       - type: markdown

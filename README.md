@@ -93,3 +93,26 @@ gespeichert.
 Unter `homeassistant/` liegen ein Lovelace-Dashboard, die Automation für die
 PV-Überschussregelung sowie eine Einbindungsanleitung.
 
+## Sollwertverlauf in Home Assistant
+
+Der von der Automation vorgegebene Heizstab-Sollwert ist als
+`number.target_power` in Home Assistant verfügbar. Die Zustandsänderungen
+werden vom Home-Assistant-Recorder gespeichert und können in Lovelace mit
+einer `history-graph`-Karte angezeigt werden. Das mitgelieferte Dashboard
+`homeassistant/lovelace-pvheatctrl.yaml` enthält bereits einen 24-Stunden-
+Verlauf für diese Entität.
+
+Eine Änderung der ESP32-Firmware ist dafür nicht erforderlich. Die
+Aufbewahrungsdauer wird über die Recorder-Konfiguration festgelegt. Beispiel
+für 30 Tage Aufbewahrung:
+
+```yaml
+recorder:
+  purge_keep_days: 30
+```
+
+Falls bereits eine `recorder:`-Konfiguration vorhanden ist, muss der Wert dort
+ergänzt werden. Nach Änderungen an der Home-Assistant-Konfiguration ist ein
+Neustart beziehungsweise ein Neuladen der betroffenen Lovelace-Konfiguration
+erforderlich.
+
