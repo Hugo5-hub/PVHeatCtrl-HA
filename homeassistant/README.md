@@ -19,7 +19,7 @@ Connect legt Home Assistant die PVHeatCtrl-Entitaeten automatisch an.
 
 Das Dashboard verwendet diese automatisch entdeckten Entity IDs:
 
-- `number.target_power`
+- `number.pv_heat_controller_target_power`
 - `number.maximum_power`
 - `sensor.output_voltage`
 - `sensor.pv_heat_controller_temperature_1`

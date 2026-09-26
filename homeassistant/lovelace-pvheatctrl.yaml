@@ -149,8 +149,6 @@ views:
             name: Netzreserve
             icon: mdi:shield-check
           - entity: input_number.pv_heizstab_pmax
-            type: number
-            mode: box
             name: Maximale Heizleistung
             icon: mdi:fire
       - type: markdown
@@ -264,7 +262,7 @@ views:
         hours_to_show: 24
         refresh_interval: 30
         entities:
-          - entity: number.target_power
+          - entity: number.pv_heat_controller_target_power
             name: Sollwert
       - type: entities
         title: ⚙️ PVHeatCtrl

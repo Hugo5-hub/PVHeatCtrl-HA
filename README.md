@@ -96,7 +96,7 @@ PV-Überschussregelung sowie eine Einbindungsanleitung.
 ## Sollwertverlauf in Home Assistant
 
 Der von der Automation vorgegebene Heizstab-Sollwert ist als
-`number.target_power` in Home Assistant verfügbar. Die Zustandsänderungen
+`number.pv_heat_controller_target_power` in Home Assistant verfügbar. Die Zustandsänderungen
 werden vom Home-Assistant-Recorder gespeichert und können in Lovelace mit
 einer `history-graph`-Karte angezeigt werden. Das mitgelieferte Dashboard
 `homeassistant/lovelace-pvheatctrl.yaml` enthält bereits einen 24-Stunden-
