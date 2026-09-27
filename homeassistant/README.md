@@ -20,7 +20,7 @@ Connect legt Home Assistant die PVHeatCtrl-Entitaeten automatisch an.
 Das Dashboard verwendet diese automatisch entdeckten Entity IDs:
 
 - `number.pv_heat_controller_target_power`
-- `number.maximum_power`
+- `number.pv_heat_controller_maximum_power`
 - `sensor.output_voltage`
 - `sensor.pv_heat_controller_temperature_1`
 - `sensor.pv_heat_controller_temperature_2`
@@ -35,7 +35,7 @@ Den Inhalt von `automations-pvheatctrl.yaml` in Home Assistant unter
 Einstellungen > Automationen und Szenen importieren oder in `automations.yaml`
 uebernehmen. Bei positiver Wirkleistung wird der Wert als PV-Ueberschuss an den
 ESP32 gesendet. Negative Netzleistung setzt den Heizstab auf 0 W. Der Wert wird
-auf `number.maximum_power` begrenzt.
+auf `number.pv_heat_controller_maximum_power` begrenzt.
 
 Nach Aenderungen an YAML-Dateien die Home-Assistant-Konfiguration pruefen und
 die Automationen neu laden.

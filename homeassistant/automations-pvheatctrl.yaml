@@ -11,7 +11,7 @@
   action:
     - variables:
         power_w: "{{ states('sensor.stromzahler_wirkleistung') | float(0) }}"
-        max_power_w: "{{ states('number.maximum_power') | float(3000) }}"
+        max_power_w: "{{ states('number.pv_heat_controller_maximum_power') | float(3000) }}"
     - service: mqtt.publish
       data:
         topic: pvheatctrl/cmd/target_w
